@@ -1,0 +1,16 @@
+[package]
+name = "turmoil-cli"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.59"
+clap = { version = "3.2.16", features = ["derive"] }
+colored = "2.0.0"
+indent_write = "2.2.0"
+pest = "2.2.1"
+pest_derive = "2.2.1"
+serde = { version = "1.0.142", features = ["derive"] }
+serde_json = "1.0.83"

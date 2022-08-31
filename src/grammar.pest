@@ -1,0 +1,80 @@
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+
+ident = {
+    ( ASCII_ALPHA | "_" )+
+}
+
+path = @{
+    "." ~ ASCII_ALPHA+
+}
+
+func = {
+    ( ident ~ "(" ~ expr ~ ")" )
+}
+
+string = ${
+    ( "\"" ~ ( !( "\"" | "\\" ) ~ ANY )* ~ "\"" )
+    | ( "'" ~ ( !( "'" | "\\" ) ~ ANY )* ~ "'" )
+}
+
+number = @{
+    ASCII_DIGIT+
+}
+
+not = {
+    "!" ~ expr
+}
+
+kw_send = { ^"send" }
+kw_receive = { ^"receive" }
+kw_log = { ^"log" }
+kw_host = { ^"host" }
+kw_version = { ^"version" }
+
+paren = {
+    "(" ~ expr ~ ")"
+}
+
+val = {
+    kw_send
+    | kw_receive
+    | kw_log
+    | kw_host
+    | kw_version
+    | string
+    | number
+    | func
+    | path
+}
+
+comp_op = {
+    "=="
+    | "!="
+    | "<"
+    | "<="
+    | ">"
+    | ">="
+}
+
+comp = {
+    val ~ ( comp_op ~ val )?
+}
+
+unary = {
+    comp
+    | not
+    | paren
+}
+
+bin_op = {
+    "||"
+    | "&&"
+}
+
+expr = {
+    unary ~ ( bin_op ~ unary )*
+}
+
+main = {
+    SOI ~ expr ~ EOI
+}
